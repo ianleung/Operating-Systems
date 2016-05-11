@@ -1,0 +1,9 @@
+starter: 			Entire multi-project workspace to solve lab3 programming project.
+					modified files:
+						lab3_main.c
+						rt_MemBox_ext.c
+						rt_MemBox_ext.h
+						rt_Task_ext.c
+						rt_Task_ext.h
+lab3_QA: 			Answer to questions in Section 3.4.1.
+lab3_test_spec: 	A test description file to describe what each testing task does.

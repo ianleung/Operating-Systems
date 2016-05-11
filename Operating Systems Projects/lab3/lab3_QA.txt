@@ -1,0 +1,66 @@
+1. 
+	p_lnk: Link pointer for ready/sem. wait list
+  	ret_val: Return value upon completion of a wait 
+  	tsk_stack: Current task Stack pointer (R13)
+  	stack: Pointer to Task Stack memory block  
+  	OS_XCB Casted as OS_TCB will keep the p_lnk field as it also has this field.
+
+2. 	mp_tcb: the memory pool of tcb (U32)
+	mp_stk: Memory pool for System stack allocation
+
+3.  What registers are saved on the task stack?	
+		R1-R12,LR registers
+	How to determine the start and end address of a task stack?
+		top of stack: &p_TCB->stack[size]
+		bottom of stack: top - 16
+	How to determine the current stack pointer of a task that is not in RUNNING state?
+		rt_get_PSP() .... p_TCB->tsk_stack
+	How to determine the current stack pointer of a task that is in RUNNING state?
+		p_TCB->tsk_stack
+4.
+	#include <rtl.h>
+
+	/* Reserve a memory for 20 blocks of 12-bytes. */
+	_declare_box(mympool,20,12);
+
+	void membox_test (void) {
+	  U8 *box;
+	  U8 *cbox;
+
+	  /* Initialize a memory for 20 blocks of 12-bytes. */
+	  _init_box (mympool, sizeof (mympool), 20);
+	  box  = _alloc_box (mympool);
+	  /* This block is initialized to 0. */
+	  cbox = _calloc_box (mympool);
+	   ..
+	  _free_box (mympool, box);
+	  _free_box (mympool, cbox);
+	}
+
+	Write one line of code to initialize the "mympool".
+		_init_box (mympool, sizeof (mympool), 20);
+	What is the corresponding kernel function of _alloc_box()?
+		rt_alloc_box
+	What is the corresponding kernel function of _free_box()?		
+		rt_free_box
+
+5.
+	rt_put_prio()
+		Put task identified with "p_task" into list ordered by priority. "p_CB" points to head of list; list has always an element at end with a priority less than "p_task->prio".  
+
+  	rt_get_first()
+  		Get task at head of list: it is the task with highest priority.
+
+6.
+	
+	rt_block()
+  		Block running task and choose next ready task. 
+
+  	rt_dispatch()
+  	  	Dispatch next task if any identified or dispatch highest ready task  
+
+7. 
+	Line 54:    p_TCB->ret_val = OS_R_MBX;
+	When you just recieved a or are waiting for a message then you dont need to set the return value as it is already set
+
+8. 	They use the data structure OS_XCB

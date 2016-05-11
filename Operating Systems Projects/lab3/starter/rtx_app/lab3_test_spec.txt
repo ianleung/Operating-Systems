@@ -1,0 +1,37 @@
+Part A
+========================================================================================
+**Tasks:
+
+Task2 (task_print) :		Print out the status of all tasks.
+Task3 (task_allocate_0) : 	A task.
+Task4 (task_allocate_1) :	A task. Extra array is used to increases stack usage.
+
+
+**Initializers:
+
+Init0():		Initialize tasks 2, 3, and 4. 
+				Task 4 will use more stack space because of the allocated array.
+
+
+Part B
+========================================================================================
+**Tasks:
+
+Task2 (task_print) :		Print out the status of all tasks. Delay of 2.
+Task3 (task_allocate_0) : 	Allocate memory using os_mem_alloc(). Delay of 4.
+Task4 (task_allocate_1) :	Allocate memory using os_mem_alloc(). Delay of 4.
+Task5 (task_free) : 		Free memory periodically os_mem_alloc(). Delay of 8.
+
+
+**Initializers:
+
+Init0() : 		Initialize tasks 2 and 3. 
+				Task 3 will periodically allocate memory until blocked in WAIT_MEM state.
+
+Init1() : 		Initialize tasks 2, 3, and 4 at the same priority.  
+				Tasks 3 & 4 allocates memory, Task 5 frees memory. 
+				When blocked, will free longest waiting.
+
+Init2() : 		Initialize tasks 2, and 3 at priority 1, initialize task 4 to priority 2. 
+				Tasks 3 & 4 allocates memory, Task 5 frees memory.
+				When blocked, will free highest priority.
